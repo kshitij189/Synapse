@@ -1,0 +1,99 @@
+flowchart TB
+
+%% ==========================================================
+%% INPUT
+%% ==========================================================
+
+Planner["🧠 Planner Service"]
+
+%% ==========================================================
+%% WORKFLOW ORCHESTRATOR
+%% ==========================================================
+
+subgraph Workflow["Workflow Orchestrator"]
+
+ExecutionRequest["Execution Request"]
+
+Scheduler["Workflow Scheduler"]
+
+DependencyResolver["Dependency Resolver"]
+
+RetryManager["Retry Manager"]
+
+TimeoutManager["Timeout Manager"]
+
+ExecutionQueue["Execution Queue"]
+
+end
+
+%% ==========================================================
+%% WORKER RUNTIME
+%% ==========================================================
+
+subgraph Workers["Worker Runtime"]
+
+WorkerPool["Worker Pool"]
+
+TaskExecutor["Task Executor"]
+
+ToolRuntime["Tool Runtime"]
+
+ResultCollector["Result Collector"]
+
+EventPublisher["Event Publisher"]
+
+end
+
+%% ==========================================================
+%% SHARED SERVICES
+%% ==========================================================
+
+Memory["Memory Service"]
+
+Knowledge["Knowledge Service"]
+
+Analytics["Analytics"]
+
+Notification["Notification"]
+
+EventBus["📨 Event Bus"]
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+Planner --> ExecutionRequest
+
+ExecutionRequest --> Scheduler
+
+Scheduler --> DependencyResolver
+
+DependencyResolver --> RetryManager
+
+RetryManager --> TimeoutManager
+
+TimeoutManager --> ExecutionQueue
+
+ExecutionQueue --> WorkerPool
+
+WorkerPool --> TaskExecutor
+
+TaskExecutor --> ToolRuntime
+
+ToolRuntime --> ResultCollector
+
+ResultCollector --> EventPublisher
+
+%% ==========================================================
+%% OUTPUTS
+%% ==========================================================
+
+ResultCollector --> Memory
+
+ResultCollector --> Knowledge
+
+ResultCollector --> Analytics
+
+ResultCollector --> Notification
+
+EventPublisher --> EventBus

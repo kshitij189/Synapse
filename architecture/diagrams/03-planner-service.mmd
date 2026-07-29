@@ -1,0 +1,67 @@
+flowchart TB
+
+%% ==========================================================
+%% INPUT
+%% ==========================================================
+
+UserGoal["🎯 User Goal"]
+
+%% ==========================================================
+%% PLANNER SERVICE
+%% ==========================================================
+
+subgraph Planner["Planner Service"]
+
+GoalAnalyzer["Goal Analyzer"]
+
+ContextRetriever["Context Retriever"]
+
+StrategyEngine["Strategy Engine"]
+
+TaskDecomposer["Task Decomposer"]
+
+DependencyResolver["Dependency Resolver"]
+
+TaskGraphGenerator["Task Graph Generator"]
+
+ExecutionRequest["Execution Request Builder"]
+
+end
+
+%% ==========================================================
+%% SHARED SERVICES
+%% ==========================================================
+
+Memory["Memory Service"]
+
+Knowledge["Knowledge Service"]
+
+AIProvider["AI Provider Manager"]
+
+Workflow["Workflow Orchestrator"]
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+UserGoal --> GoalAnalyzer
+
+GoalAnalyzer --> ContextRetriever
+
+ContextRetriever --> Memory
+
+ContextRetriever --> Knowledge
+
+GoalAnalyzer --> StrategyEngine
+
+StrategyEngine --> AIProvider
+
+StrategyEngine --> TaskDecomposer
+
+TaskDecomposer --> DependencyResolver
+
+DependencyResolver --> TaskGraphGenerator
+
+TaskGraphGenerator --> ExecutionRequest
+
+ExecutionRequest --> Workflow

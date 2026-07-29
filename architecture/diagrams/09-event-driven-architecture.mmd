@@ -1,0 +1,79 @@
+flowchart LR
+
+%% ==========================================================
+%% EVENT PRODUCERS
+%% ==========================================================
+
+subgraph Producers["Event Producers"]
+
+Planner["🧠 Planner Service"]
+
+Workflow["⚙️ Workflow Orchestrator"]
+
+Workers["👷 Worker Runtime"]
+
+Memory["🧩 Memory Service"]
+
+Knowledge["📚 Knowledge Service"]
+
+Organization["🏢 Organization Service"]
+
+end
+
+%% ==========================================================
+%% EVENT BUS
+%% ==========================================================
+
+EventBus["📨 Event Bus"]
+
+%% ==========================================================
+%% EVENT CONSUMERS
+%% ==========================================================
+
+subgraph Consumers["Event Consumers"]
+
+Analytics["📈 Analytics Service"]
+
+Notification["🔔 Notification Service"]
+
+Audit["📝 Audit Service"]
+
+Integration["🔗 Integration Service"]
+
+Monitoring["📊 Monitoring"]
+
+end
+
+%% ==========================================================
+%% PUBLISH
+%% ==========================================================
+
+Planner -->|ExecutionPlanned| EventBus
+
+Workflow -->|WorkflowStarted| EventBus
+
+Workflow -->|WorkflowCompleted| EventBus
+
+Workers -->|TaskCompleted| EventBus
+
+Workers -->|TaskFailed| EventBus
+
+Memory -->|MemoryUpdated| EventBus
+
+Knowledge -->|KnowledgeUpdated| EventBus
+
+Organization -->|OrganizationChanged| EventBus
+
+%% ==========================================================
+%% SUBSCRIBE
+%% ==========================================================
+
+EventBus --> Analytics
+
+EventBus --> Notification
+
+EventBus --> Audit
+
+EventBus --> Integration
+
+EventBus --> Monitoring

@@ -1,0 +1,73 @@
+flowchart TB
+
+%% ==========================================================
+%% SERVICES
+%% ==========================================================
+
+subgraph Services["Platform Services"]
+
+Identity["🔐 Identity Service"]
+
+Organization["🏢 Organization Service"]
+
+Planner["🧠 Planner Service"]
+
+Workflow["⚙️ Workflow Service"]
+
+Memory["🧩 Memory Service"]
+
+Knowledge["📚 Knowledge Service"]
+
+Analytics["📈 Analytics Service"]
+
+Notification["🔔 Notification Service"]
+
+end
+
+%% ==========================================================
+%% STORAGE
+%% ==========================================================
+
+subgraph Storage["Persistent Storage"]
+
+Postgres[("PostgreSQL")]
+
+Redis[("Redis")]
+
+Chroma[("ChromaDB")]
+
+Elastic[("Elasticsearch")]
+
+ObjectStore[("Object Storage")]
+
+end
+
+%% ==========================================================
+%% DATABASE OWNERSHIP
+%% ==========================================================
+
+Identity --> Postgres
+
+Organization --> Postgres
+
+Workflow --> Postgres
+
+Analytics --> Postgres
+
+Notification --> Postgres
+
+Memory --> Redis
+
+Memory --> Postgres
+
+Memory --> Chroma
+
+Knowledge --> Chroma
+
+Knowledge --> Elastic
+
+Knowledge --> ObjectStore
+
+Planner -. Read Context .-> Memory
+
+Planner -. Read Knowledge .-> Knowledge

@@ -1,0 +1,107 @@
+flowchart TB
+
+%% ==========================================================
+%% USER REQUEST
+%% ==========================================================
+
+User["👤 User"]
+
+Frontend["🌐 Frontend"]
+
+Gateway["🚪 API Gateway"]
+
+%% ==========================================================
+%% PLANNING
+%% ==========================================================
+
+Planner["🧠 Planner Service"]
+
+MemoryRetriever["Memory Retrieval"]
+
+KnowledgeRetriever["Knowledge Retrieval"]
+
+Strategy["Strategy Engine"]
+
+TaskGraph["Task Graph Generator"]
+
+%% ==========================================================
+%% EXECUTION
+%% ==========================================================
+
+Workflow["Workflow Orchestrator"]
+
+Queue["Execution Queue"]
+
+Workers["Worker Runtime"]
+
+ToolRuntime["Tool Runtime"]
+
+%% ==========================================================
+%% SHARED SERVICES
+%% ==========================================================
+
+Memory["Memory Service"]
+
+Knowledge["Knowledge Service"]
+
+Analytics["Analytics"]
+
+Notification["Notification"]
+
+EventBus["📨 Event Bus"]
+
+%% ==========================================================
+%% RESPONSE
+%% ==========================================================
+
+ResponseBuilder["Response Builder"]
+
+FinalResponse["📤 Response"]
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+User --> Frontend
+
+Frontend --> Gateway
+
+Gateway --> Planner
+
+Planner --> MemoryRetriever
+
+Planner --> KnowledgeRetriever
+
+MemoryRetriever --> Memory
+
+KnowledgeRetriever --> Knowledge
+
+Planner --> Strategy
+
+Strategy --> TaskGraph
+
+TaskGraph --> Workflow
+
+Workflow --> Queue
+
+Queue --> Workers
+
+Workers --> ToolRuntime
+
+Workers --> Memory
+
+Workers --> Knowledge
+
+Workers --> Analytics
+
+Workers --> Notification
+
+Workers --> EventBus
+
+Workers --> ResponseBuilder
+
+ResponseBuilder --> FinalResponse
+
+FinalResponse --> Frontend
+
+Frontend --> User

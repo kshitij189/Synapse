@@ -1,0 +1,91 @@
+sequenceDiagram
+
+actor User
+
+participant Frontend
+
+participant Gateway as API Gateway
+
+participant Planner
+
+participant Memory
+
+participant Knowledge
+
+participant Workflow
+
+participant Worker
+
+participant ToolRuntime as Tool Runtime
+
+participant EventBus
+
+participant Response
+
+%% ==========================================
+%% REQUEST
+%% ==========================================
+
+User->>Frontend: Submit Request
+
+Frontend->>Gateway: HTTP Request
+
+Gateway->>Planner: Forward Request
+
+%% ==========================================
+%% CONTEXT
+%% ==========================================
+
+Planner->>Memory: Retrieve Context
+
+Memory-->>Planner: Context
+
+Planner->>Knowledge: Retrieve Knowledge
+
+Knowledge-->>Planner: Relevant Documents
+
+%% ==========================================
+%% PLANNING
+%% ==========================================
+
+Planner->>Planner: Build Strategy
+
+Planner->>Planner: Generate Task Graph
+
+Planner->>Workflow: Execution Request
+
+%% ==========================================
+%% EXECUTION
+%% ==========================================
+
+Workflow->>Worker: Assign Task
+
+Worker->>ToolRuntime: Execute Tool
+
+ToolRuntime-->>Worker: Tool Result
+
+%% ==========================================
+%% MEMORY UPDATE
+%% ==========================================
+
+Worker->>Memory: Store Execution State
+
+Worker->>Knowledge: Store Learned Knowledge
+
+Worker->>EventBus: Publish Events
+
+%% ==========================================
+%% RESPONSE
+%% ==========================================
+
+Worker-->>Workflow: Task Result
+
+Workflow-->>Planner: Workflow Complete
+
+Planner->>Response: Build Final Response
+
+Response-->>Gateway: Response
+
+Gateway-->>Frontend: HTTP Response
+
+Frontend-->>User: Display Result

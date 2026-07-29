@@ -1,0 +1,83 @@
+flowchart TB
+
+%% ==========================================================
+%% PLATFORM SERVICES
+%% ==========================================================
+
+subgraph Platform["Platform Services"]
+
+Gateway["API Gateway"]
+
+Planner["Planner Service"]
+
+Workflow["Workflow Service"]
+
+Workers["Worker Runtime"]
+
+Memory["Memory Service"]
+
+Knowledge["Knowledge Service"]
+
+Identity["Identity Service"]
+
+Analytics["Analytics Service"]
+
+end
+
+%% ==========================================================
+%% TELEMETRY
+%% ==========================================================
+
+OpenTelemetry["OpenTelemetry Collector"]
+
+%% ==========================================================
+%% OBSERVABILITY STACK
+%% ==========================================================
+
+subgraph Observability["Observability Stack"]
+
+Prometheus["Prometheus"]
+
+Loki["Loki"]
+
+Tempo["Tempo"]
+
+Grafana["Grafana"]
+
+AlertManager["Alertmanager"]
+
+end
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+Gateway --> OpenTelemetry
+
+Planner --> OpenTelemetry
+
+Workflow --> OpenTelemetry
+
+Workers --> OpenTelemetry
+
+Memory --> OpenTelemetry
+
+Knowledge --> OpenTelemetry
+
+Identity --> OpenTelemetry
+
+Analytics --> OpenTelemetry
+
+OpenTelemetry --> Prometheus
+
+OpenTelemetry --> Loki
+
+OpenTelemetry --> Tempo
+
+Prometheus --> Grafana
+
+Loki --> Grafana
+
+Tempo --> Grafana
+
+Prometheus --> AlertManager

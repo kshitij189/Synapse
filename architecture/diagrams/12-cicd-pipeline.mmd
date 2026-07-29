@@ -1,0 +1,83 @@
+flowchart TB
+
+%% ==========================================================
+%% DEVELOPMENT
+%% ==========================================================
+
+Developer["👨‍💻 Developer"]
+
+GitHub["GitHub Repository"]
+
+PullRequest["Pull Request"]
+
+%% ==========================================================
+%% CI PIPELINE
+%% ==========================================================
+
+subgraph CI["Continuous Integration"]
+
+Actions["GitHub Actions"]
+
+Lint["Linting"]
+
+UnitTests["Unit Tests"]
+
+IntegrationTests["Integration Tests"]
+
+Security["Security Scan"]
+
+DockerBuild["Docker Build"]
+
+Registry["Container Registry"]
+
+end
+
+%% ==========================================================
+%% CD PIPELINE
+%% ==========================================================
+
+subgraph CD["Continuous Deployment"]
+
+Dev["Development Cluster"]
+
+Staging["Staging Cluster"]
+
+Approval["Manual Approval"]
+
+Production["Production Cluster"]
+
+Rollback["Rollback Strategy"]
+
+end
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+Developer --> GitHub
+
+GitHub --> PullRequest
+
+PullRequest --> Actions
+
+Actions --> Lint
+
+Lint --> UnitTests
+
+UnitTests --> IntegrationTests
+
+IntegrationTests --> Security
+
+Security --> DockerBuild
+
+DockerBuild --> Registry
+
+Registry --> Dev
+
+Dev --> Staging
+
+Staging --> Approval
+
+Approval --> Production
+
+Production -. Failure .-> Rollback

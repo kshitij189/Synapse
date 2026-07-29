@@ -1,0 +1,225 @@
+flowchart TB
+
+%% =========================================================
+%% CLIENTS
+%% =========================================================
+
+subgraph Clients
+
+Web["🌐 Web Application (Next.js)"]
+
+CLI["💻 CLI"]
+
+API["🔌 External API Clients"]
+
+end
+
+%% =========================================================
+%% API LAYER
+%% =========================================================
+
+Gateway["🚪 API Gateway"]
+
+%% =========================================================
+%% PLATFORM SERVICES
+%% =========================================================
+
+subgraph Platform["Platform Services"]
+
+Identity["Identity Service"]
+
+Organization["Organization Service"]
+
+Planner["Planner Service"]
+
+Workflow["Workflow Orchestrator"]
+
+Workers["Worker Runtime"]
+
+Knowledge["Knowledge Service"]
+
+Memory["Memory Service"]
+
+Analytics["Analytics Service"]
+
+Notification["Notification Service"]
+
+Integration["Integration Service"]
+
+end
+
+%% =========================================================
+%% SHARED PLATFORM
+%% =========================================================
+
+EventBus["📨 Event Bus"]
+
+ToolRuntime["🛠 Tool Runtime"]
+
+AIProvider["🤖 AI Provider Manager"]
+
+%% =========================================================
+%% STORAGE
+%% =========================================================
+
+subgraph Storage
+
+Postgres[("PostgreSQL")]
+
+Redis[("Redis")]
+
+Chroma[("ChromaDB")]
+
+Elastic[("Elasticsearch")]
+
+ObjectStore[("Object Storage")]
+
+end
+
+%% =========================================================
+%% EXTERNAL SERVICES
+%% =========================================================
+
+subgraph External
+
+GitHub["GitHub"]
+
+Slack["Slack"]
+
+Google["Google Workspace"]
+
+Email["Email Provider"]
+
+MCP["MCP Servers"]
+
+ThirdParty["External APIs"]
+
+Gemini["Gemini"]
+
+OpenRouter["OpenRouter"]
+
+end
+
+%% =========================================================
+%% CLIENT FLOW
+%% =========================================================
+
+Web --> Gateway
+
+CLI --> Gateway
+
+API --> Gateway
+
+%% =========================================================
+%% ROUTING
+%% =========================================================
+
+Gateway --> Identity
+
+Gateway --> Organization
+
+Gateway --> Planner
+
+Gateway --> Knowledge
+
+Gateway --> Memory
+
+Gateway --> Analytics
+
+Gateway --> Notification
+
+Gateway --> Integration
+
+%% =========================================================
+%% EXECUTION FLOW
+%% =========================================================
+
+Planner --> Workflow
+
+Workflow --> Workers
+
+Workers --> ToolRuntime
+
+Workers --> EventBus
+
+Workers --> Memory
+
+Workers --> Knowledge
+
+Workers --> Analytics
+
+Workers --> Notification
+
+%% =========================================================
+%% AI
+%% =========================================================
+
+Planner --> AIProvider
+
+Workers --> AIProvider
+
+AIProvider --> Gemini
+
+AIProvider --> OpenRouter
+
+%% =========================================================
+%% STORAGE
+%% =========================================================
+
+Identity --> Postgres
+
+Organization --> Postgres
+
+Planner --> Redis
+
+Workflow --> Redis
+
+Workers --> Redis
+
+Knowledge --> Chroma
+
+Knowledge --> Elastic
+
+Knowledge --> ObjectStore
+
+Memory --> Redis
+
+Memory --> Chroma
+
+Analytics --> Postgres
+
+Notification --> Postgres
+
+%% =========================================================
+%% EVENT BUS
+%% =========================================================
+
+Planner -. Events .-> EventBus
+
+Workflow -. Events .-> EventBus
+
+Knowledge -. Events .-> EventBus
+
+Memory -. Events .-> EventBus
+
+Analytics -. Events .-> EventBus
+
+Notification -. Events .-> EventBus
+
+Integration -. Events .-> EventBus
+
+%% =========================================================
+%% EXTERNALS
+%% =========================================================
+
+Integration --> GitHub
+
+Integration --> Slack
+
+Integration --> Google
+
+Integration --> Email
+
+Integration --> MCP
+
+Integration --> ThirdParty

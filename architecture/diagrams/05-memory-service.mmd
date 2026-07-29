@@ -1,0 +1,111 @@
+flowchart TB
+
+%% ==========================================================
+%% MEMORY USERS
+%% ==========================================================
+
+Planner["🧠 Planner Service"]
+
+Workers["⚙️ Worker Runtime"]
+
+Organization["🏢 Organization Service"]
+
+%% ==========================================================
+%% MEMORY SERVICE
+%% ==========================================================
+
+subgraph Memory["Memory Service"]
+
+MemoryManager["Memory Manager"]
+
+MemoryRetriever["Memory Retriever"]
+
+MemoryIndexer["Memory Index"]
+
+ContextAssembler["Context Assembler"]
+
+WorkingMemory["Working Memory"]
+
+EpisodicMemory["Episodic Memory"]
+
+SemanticMemory["Semantic Memory"]
+
+OrganizationalMemory["Organizational Memory"]
+
+end
+
+%% ==========================================================
+%% STORAGE
+%% ==========================================================
+
+subgraph Storage["Persistent Storage"]
+
+Redis[("Redis")]
+
+Postgres[("PostgreSQL")]
+
+VectorDB[("ChromaDB")]
+
+end
+
+%% ==========================================================
+%% READ FLOW
+%% ==========================================================
+
+Planner --> MemoryRetriever
+
+Workers --> MemoryRetriever
+
+Organization --> MemoryRetriever
+
+MemoryRetriever --> WorkingMemory
+
+MemoryRetriever --> EpisodicMemory
+
+MemoryRetriever --> SemanticMemory
+
+MemoryRetriever --> OrganizationalMemory
+
+WorkingMemory --> ContextAssembler
+
+EpisodicMemory --> ContextAssembler
+
+SemanticMemory --> ContextAssembler
+
+OrganizationalMemory --> ContextAssembler
+
+ContextAssembler --> Planner
+
+ContextAssembler --> Workers
+
+%% ==========================================================
+%% WRITE FLOW
+%% ==========================================================
+
+Planner --> MemoryManager
+
+Workers --> MemoryManager
+
+Organization --> MemoryManager
+
+MemoryManager --> MemoryIndexer
+
+MemoryIndexer --> WorkingMemory
+
+MemoryIndexer --> EpisodicMemory
+
+MemoryIndexer --> SemanticMemory
+
+MemoryIndexer --> OrganizationalMemory
+
+%% ==========================================================
+%% STORAGE
+%% ==========================================================
+
+WorkingMemory --> Redis
+
+EpisodicMemory --> Postgres
+
+SemanticMemory --> VectorDB
+
+OrganizationalMemory --> Postgres

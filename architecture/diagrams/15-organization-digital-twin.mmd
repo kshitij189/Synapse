@@ -1,0 +1,111 @@
+flowchart TB
+
+%% ==========================================================
+%% EXECUTIVE LAYER
+%% ==========================================================
+
+Executive["🏢 Executive Coordinator"]
+
+%% ==========================================================
+%% ORGANIZATION ENGINE
+%% ==========================================================
+
+OrgEngine["🏗️ Organization Engine"]
+
+CapabilityRegistry["📚 Capability Registry"]
+
+%% ==========================================================
+%% DEPARTMENTS
+%% ==========================================================
+
+subgraph Departments["Departments"]
+
+Research["🔬 Research Department"]
+
+Engineering["💻 Engineering Department"]
+
+Operations["⚙️ Operations Department"]
+
+Communication["💬 Communication Department"]
+
+Knowledge["📖 Knowledge Department"]
+
+end
+
+%% ==========================================================
+%% MANAGERS
+%% ==========================================================
+
+ResearchMgr["Research Manager"]
+
+EngineeringMgr["Engineering Manager"]
+
+OperationsMgr["Operations Manager"]
+
+CommunicationMgr["Communication Manager"]
+
+KnowledgeMgr["Knowledge Manager"]
+
+%% ==========================================================
+%% WORKER POOLS
+%% ==========================================================
+
+ResearchWorkers["Research Worker Pool"]
+
+EngineeringWorkers["Engineering Worker Pool"]
+
+OperationsWorkers["Operations Worker Pool"]
+
+CommunicationWorkers["Communication Worker Pool"]
+
+KnowledgeWorkers["Knowledge Worker Pool"]
+
+%% ==========================================================
+%% SHARED SERVICES
+%% ==========================================================
+
+Memory["🧩 Organizational Memory"]
+
+Planner["🧠 Planner Service"]
+
+Workflow["⚙️ Workflow Orchestrator"]
+
+%% ==========================================================
+%% HIERARCHY
+%% ==========================================================
+
+Executive --> OrgEngine
+
+Executive --> Planner
+
+OrgEngine --> CapabilityRegistry
+
+OrgEngine --> Research
+OrgEngine --> Engineering
+OrgEngine --> Operations
+OrgEngine --> Communication
+OrgEngine --> Knowledge
+
+Research --> ResearchMgr
+Engineering --> EngineeringMgr
+Operations --> OperationsMgr
+Communication --> CommunicationMgr
+Knowledge --> KnowledgeMgr
+
+ResearchMgr --> ResearchWorkers
+EngineeringMgr --> EngineeringWorkers
+OperationsMgr --> OperationsWorkers
+CommunicationMgr --> CommunicationWorkers
+KnowledgeMgr --> KnowledgeWorkers
+
+ResearchWorkers --> Workflow
+EngineeringWorkers --> Workflow
+OperationsWorkers --> Workflow
+CommunicationWorkers --> Workflow
+KnowledgeWorkers --> Workflow
+
+Workflow --> Memory
+
+Planner --> Memory
+
+CapabilityRegistry --> Planner

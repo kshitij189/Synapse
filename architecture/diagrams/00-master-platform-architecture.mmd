@@ -1,0 +1,166 @@
+flowchart TB
+
+%% ==========================================================
+%% CLIENTS
+%% ==========================================================
+
+subgraph Clients["Clients"]
+
+Web["🌐 Web App"]
+
+Mobile["📱 Mobile App"]
+
+CLI["💻 CLI"]
+
+API["🔌 External APIs"]
+
+end
+
+%% ==========================================================
+%% EDGE
+%% ==========================================================
+
+Gateway["🛡️ API Gateway"]
+
+%% ==========================================================
+%% PLATFORM SERVICES
+%% ==========================================================
+
+subgraph Platform["Platform Services"]
+
+Identity["🔐 Identity"]
+
+Organization["🏢 Organization"]
+
+Planner["🧠 Planner"]
+
+Workflow["⚙️ Workflow"]
+
+Memory["🧩 Memory"]
+
+Knowledge["📚 Knowledge"]
+
+Analytics["📈 Analytics"]
+
+Notification["🔔 Notification"]
+
+Integration["🔗 Integration"]
+
+end
+
+%% ==========================================================
+%% AI EXECUTION
+%% ==========================================================
+
+subgraph AI["AI Execution Layer"]
+
+ProviderManager["🤖 AI Provider Manager"]
+
+ToolRuntime["🛠️ Tool Runtime"]
+
+WorkerRuntime["👷 Worker Runtime"]
+
+EventBus["📨 Event Bus"]
+
+end
+
+%% ==========================================================
+%% ORGANIZATION
+%% ==========================================================
+
+subgraph Org["Organization Digital Twin"]
+
+Executive["🏢 Executive Coordinator"]
+
+CapabilityRegistry["📋 Capability Registry"]
+
+Departments["🏬 Departments"]
+
+WorkerPools["👥 Worker Pools"]
+
+end
+
+%% ==========================================================
+%% STORAGE
+%% ==========================================================
+
+subgraph Storage["Data Layer"]
+
+Postgres[("PostgreSQL")]
+
+Redis[("Redis")]
+
+Chroma[("ChromaDB")]
+
+Elastic[("Elasticsearch")]
+
+ObjectStore[("Object Storage")]
+
+end
+
+%% ==========================================================
+%% OBSERVABILITY
+%% ==========================================================
+
+subgraph Ops["Operations"]
+
+Telemetry["OpenTelemetry"]
+
+Monitoring["Prometheus + Grafana"]
+
+Security["Security"]
+
+CI["CI/CD"]
+
+end
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+Web --> Gateway
+Mobile --> Gateway
+CLI --> Gateway
+API --> Gateway
+
+Gateway --> Identity
+Gateway --> Organization
+Gateway --> Planner
+Gateway --> Workflow
+
+Planner --> Memory
+Planner --> Knowledge
+
+Planner --> ProviderManager
+
+Workflow --> WorkerRuntime
+
+WorkerRuntime --> ToolRuntime
+
+WorkerRuntime --> EventBus
+
+Organization --> Executive
+
+Executive --> CapabilityRegistry
+
+CapabilityRegistry --> Departments
+
+Departments --> WorkerPools
+
+WorkerPools --> Workflow
+
+Memory --> Redis
+Memory --> Postgres
+Memory --> Chroma
+
+Knowledge --> Chroma
+Knowledge --> Elastic
+Knowledge --> ObjectStore
+
+Platform --> Telemetry
+
+Telemetry --> Monitoring
+
+Platform --> Security
+
+Platform --> CI

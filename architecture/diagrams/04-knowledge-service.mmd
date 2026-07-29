@@ -1,0 +1,87 @@
+flowchart LR
+
+%% ==========================================================
+%% INGESTION PIPELINE
+%% ==========================================================
+
+subgraph Ingestion["Document Ingestion Pipeline"]
+
+Documents["📄 Documents"]
+
+Parser["Document Parser"]
+
+Chunker["Chunking Engine"]
+
+Metadata["Metadata Extractor"]
+
+Embedding["Embedding Generator"]
+
+Indexer["Knowledge Indexer"]
+
+end
+
+%% ==========================================================
+%% STORAGE
+%% ==========================================================
+
+subgraph Storage["Knowledge Storage"]
+
+VectorDB[("ChromaDB")]
+
+SearchIndex[("Elasticsearch")]
+
+ObjectStorage[("Object Storage")]
+
+end
+
+%% ==========================================================
+%% RETRIEVAL PIPELINE
+%% ==========================================================
+
+subgraph Retrieval["Retrieval Pipeline"]
+
+UserQuery["User Query"]
+
+Retriever["Hybrid Retriever"]
+
+Reranker["Reranker"]
+
+ContextBuilder["Context Builder"]
+
+RAG["RAG Engine"]
+
+end
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+Documents --> Parser
+
+Parser --> Chunker
+
+Chunker --> Metadata
+
+Metadata --> Embedding
+
+Embedding --> Indexer
+
+Indexer --> VectorDB
+
+Indexer --> SearchIndex
+
+Parser --> ObjectStorage
+
+UserQuery --> Retriever
+
+Retriever --> VectorDB
+
+Retriever --> SearchIndex
+
+Retriever --> ObjectStorage
+
+Retriever --> Reranker
+
+Reranker --> ContextBuilder
+
+ContextBuilder --> RAG

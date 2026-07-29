@@ -1,0 +1,87 @@
+flowchart TB
+
+%% ==========================================================
+%% USERS
+%% ==========================================================
+
+User["👤 User"]
+
+Admin["👨‍💼 Organization Admin"]
+
+%% ==========================================================
+%% EDGE
+%% ==========================================================
+
+Gateway["🛡️ API Gateway"]
+
+Identity["🔐 Identity Service"]
+
+RBAC["Role-Based Access Control"]
+
+%% ==========================================================
+%% PLATFORM
+%% ==========================================================
+
+subgraph Platform["Platform Services"]
+
+Planner["Planner Service"]
+
+Workflow["Workflow Service"]
+
+Memory["Memory Service"]
+
+Knowledge["Knowledge Service"]
+
+Organization["Organization Service"]
+
+end
+
+%% ==========================================================
+%% SECURITY
+%% ==========================================================
+
+subgraph Security["Security Infrastructure"]
+
+Secrets["Secrets Manager"]
+
+TLS["TLS / mTLS"]
+
+Audit["Audit Service"]
+
+Policies["Network Policies"]
+
+Encryption["Encryption at Rest"]
+
+end
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+User --> Gateway
+
+Admin --> Gateway
+
+Gateway --> Identity
+
+Identity --> RBAC
+
+RBAC --> Planner
+
+RBAC --> Workflow
+
+RBAC --> Memory
+
+RBAC --> Knowledge
+
+RBAC --> Organization
+
+Platform --> TLS
+
+Platform --> Secrets
+
+Platform --> Audit
+
+Platform --> Encryption
+
+Platform --> Policies

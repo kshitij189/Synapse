@@ -1,0 +1,103 @@
+flowchart LR
+
+%% ===========================
+%% Users
+%% ===========================
+
+User([End User])
+Admin([Organization Admin])
+Developer([Developer])
+
+%% ===========================
+%% External Systems
+%% ===========================
+
+GitHub([GitHub])
+
+Slack([Slack])
+
+Google([Google Workspace])
+
+Email([Email Providers])
+
+MCP([MCP Servers])
+
+External([External APIs])
+
+%% ===========================
+%% AAOP
+%% ===========================
+
+subgraph AAOP["Autonomous Adaptive Organization Platform (AAOP)"]
+
+Frontend["Web Frontend (Next.js)"]
+
+Gateway["API Gateway"]
+
+Identity["Identity & Access Management"]
+
+Organization["Organization Management"]
+
+Planner["AI Planning Engine"]
+
+Workflow["Workflow Orchestrator"]
+
+Workers["Worker Runtime"]
+
+Knowledge["Knowledge Service"]
+
+Memory["Memory Service"]
+
+Analytics["Analytics"]
+
+Notification["Notification Service"]
+
+Integration["Integration Service"]
+
+end
+
+%% ===========================
+%% User Interactions
+%% ===========================
+
+User --> Frontend
+
+Admin --> Frontend
+
+Developer --> Frontend
+
+Frontend --> Gateway
+
+Gateway --> Identity
+
+Gateway --> Organization
+
+Gateway --> Planner
+
+Gateway --> Workflow
+
+Gateway --> Knowledge
+
+Gateway --> Memory
+
+Gateway --> Analytics
+
+Gateway --> Notification
+
+Gateway --> Integration
+
+%% ===========================
+%% External Integrations
+%% ===========================
+
+Integration --> GitHub
+
+Integration --> Slack
+
+Integration --> Google
+
+Integration --> Email
+
+Integration --> MCP
+
+Integration --> External

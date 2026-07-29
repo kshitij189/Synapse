@@ -1,0 +1,155 @@
+flowchart TB
+
+%% ==========================================================
+%% USERS
+%% ==========================================================
+
+Users["👥 Users"]
+
+Internet["🌍 Internet"]
+
+%% ==========================================================
+%% KUBERNETES CLUSTER
+%% ==========================================================
+
+subgraph Cluster["Kubernetes Cluster"]
+
+Ingress["NGINX Ingress Controller"]
+
+Gateway["API Gateway"]
+
+%% ----------------------------------------------------------
+%% PLATFORM SERVICES
+%% ----------------------------------------------------------
+
+subgraph Platform["Platform Services"]
+
+Identity["Identity Service"]
+
+Organization["Organization Service"]
+
+Planner["Planner Service"]
+
+Workflow["Workflow Service"]
+
+Memory["Memory Service"]
+
+Knowledge["Knowledge Service"]
+
+Analytics["Analytics Service"]
+
+Notification["Notification Service"]
+
+end
+
+%% ----------------------------------------------------------
+%% WORKER NODES
+%% ----------------------------------------------------------
+
+subgraph WorkerRuntime["Worker Runtime"]
+
+Worker1["Worker Pod"]
+
+Worker2["Worker Pod"]
+
+Worker3["Worker Pod"]
+
+HPA["Horizontal Pod Autoscaler"]
+
+end
+
+%% ----------------------------------------------------------
+%% INFRASTRUCTURE
+%% ----------------------------------------------------------
+
+subgraph Infra["Infrastructure"]
+
+EventBus["Event Bus"]
+
+Redis["Redis"]
+
+Postgres["PostgreSQL"]
+
+Chroma["ChromaDB"]
+
+Elastic["Elasticsearch"]
+
+ObjectStore["Object Storage"]
+
+end
+
+%% ----------------------------------------------------------
+%% OBSERVABILITY
+%% ----------------------------------------------------------
+
+subgraph Observability["Observability"]
+
+Prometheus["Prometheus"]
+
+Grafana["Grafana"]
+
+Loki["Loki"]
+
+OpenTelemetry["OpenTelemetry"]
+
+end
+
+end
+
+%% ==========================================================
+%% FLOW
+%% ==========================================================
+
+Users --> Internet
+
+Internet --> Ingress
+
+Ingress --> Gateway
+
+Gateway --> Planner
+
+Gateway --> Identity
+
+Gateway --> Organization
+
+Gateway --> Workflow
+
+Planner --> Memory
+
+Planner --> Knowledge
+
+Workflow --> Worker1
+
+Workflow --> Worker2
+
+Workflow --> Worker3
+
+HPA -. scales .-> Worker1
+HPA -. scales .-> Worker2
+HPA -. scales .-> Worker3
+
+Worker1 --> EventBus
+Worker2 --> EventBus
+Worker3 --> EventBus
+
+Memory --> Redis
+Memory --> Postgres
+Memory --> Chroma
+
+Knowledge --> Chroma
+Knowledge --> Elastic
+Knowledge --> ObjectStore
+
+Identity --> Postgres
+Organization --> Postgres
+Workflow --> Postgres
+Analytics --> Postgres
+Notification --> Postgres
+
+Platform --> OpenTelemetry
+
+OpenTelemetry --> Prometheus
+
+OpenTelemetry --> Loki
+
+Prometheus --> Grafana
