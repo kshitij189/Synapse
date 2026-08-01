@@ -1,0 +1,63 @@
+# ==============================================================================
+# Synapse Backend — Docker Ignore
+# ==============================================================================
+# Excludes non-essential files from the Docker build context to reduce
+# image size and prevent leaking secrets into the image.
+# ==============================================================================
+
+# ── Version Control ──────────────────────────────────────────────────────
+.git
+.gitignore
+
+# ── Python Caches ────────────────────────────────────────────────────────
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.eggs
+dist
+build
+
+# ── Virtual Environments ─────────────────────────────────────────────────
+.venv
+venv
+env
+
+# ── Environment Files (secrets) ──────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Test & Quality ───────────────────────────────────────────────────────
+# Note: tests/ is kept in context for the development Docker target.
+# The production target simply does not COPY it.
+.pytest_cache
+.coverage
+htmlcov
+.ruff_cache
+.mypy_cache
+
+# ── Documentation ────────────────────────────────────────────────────────
+docs
+*.md
+!README.md
+
+# ── IDE / Editor ─────────────────────────────────────────────────────────
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# ── Scripts (verification, not needed in image) ──────────────────────────
+scripts
+
+# ── Docker ───────────────────────────────────────────────────────────────
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# ── Misc ─────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+node_modules

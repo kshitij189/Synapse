@@ -172,7 +172,15 @@ This section tracks completed work that has not yet been included in an official
 - Health check endpoints: `GET /`, `GET /health`, `GET /version` (EP-13 §13.12)
 - UTC datetime utility helpers (`utc_now()`, `to_iso8601()`)
 - Application constants (`SERVICE_NAME`, `API_V1_PREFIX`)
-- Multi-stage Dockerfile with non-root user and built-in health check
+- Production-ready 3-stage multi-stage Dockerfile (builder → development → production) (TS-06 §6.4, EP-15 §15.10)
+- Development Docker target with hot-reload support (`--target development`)
+- Non-root `synapse` user (uid 1000) for container runtime security
+- Docker `HEALTHCHECK` instruction hitting `GET /health`
+- OCI-standard image labels (`org.opencontainers.image.*`) for version provenance
+- `.dockerignore` excluding caches, secrets, tests (production), IDE files, and documentation
+- Docker verification script (`scripts/verify_docker.sh`) with 10 automated checks
+- Environment variable override support via `-e` flags at container runtime
+- Image size optimisation (~55MB production image) using `python:3.12-slim` base
 - `pyproject.toml` with `uv` dependency management and `hatchling` build backend
 - `.env.example` environment variable template
 - Stub packages for future development: `dependencies/`, `models/`, `schemas/`, `services/`
@@ -256,7 +264,7 @@ Release Date: YYYY-MM-DD
 
 | Version | Status | Release Date | Summary |
 |----------|--------|--------------|---------|
-| v0.1.0 | In Progress | YYYY-MM-DD | Repository Bootstrap (Backend Project Setup completed 2026-08-02) |
+| v0.1.0 | In Progress | YYYY-MM-DD | Repository Bootstrap (Docker Setup completed 2026-08-02) |
 
 ---
 
