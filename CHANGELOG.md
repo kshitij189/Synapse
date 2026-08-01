@@ -154,24 +154,31 @@ This section tracks completed work that has not yet been included in an official
 
 # v0.1.0 – Repository Bootstrap
 
-**Status:** Planned
+**Status:** In Progress
 
 **Release Date:** YYYY-MM-DD
 
 ## Added
 
-- Repository structure
-- Backend project initialization
-- Frontend project initialization
-- Docker configuration
-- Docker Compose setup
-- Configuration management
-- Environment variable support
-- Logging framework
-- Health check endpoint
-- Dependency management
-- Initial CI/CD pipeline
-- Initial testing framework
+- Backend project structure following Clean Architecture layered pattern (EP-03 §3.6)
+- FastAPI application with lifespan context manager for startup/shutdown lifecycle
+- Application factory pattern (`create_app()`) in `backend/app/main.py`
+- Pydantic Settings configuration (`backend/app/config/settings.py`) with `.env` support
+- Structured JSON logging with UTC timestamps and request correlation IDs (EP-13 §13.5)
+- Request ID middleware generating UUID4 correlation headers (`X-Request-ID`)
+- Exception hierarchy (`SynapseException` → `NotFoundException`, `ValidationException`, `UnauthorizedException`, `ForbiddenException`, `InternalServerException`)
+- Global exception handlers producing consistent JSON error responses (COD-05 §5.5)
+- Standard API response envelopes (`ApiResponse[T]`, `ErrorResponse`)
+- Health check endpoints: `GET /`, `GET /health`, `GET /version` (EP-13 §13.12)
+- UTC datetime utility helpers (`utc_now()`, `to_iso8601()`)
+- Application constants (`SERVICE_NAME`, `API_V1_PREFIX`)
+- Multi-stage Dockerfile with non-root user and built-in health check
+- `pyproject.toml` with `uv` dependency management and `hatchling` build backend
+- `.env.example` environment variable template
+- Stub packages for future development: `dependencies/`, `models/`, `schemas/`, `services/`
+- ~~Frontend project initialization~~ *(pending)*
+- ~~Docker Compose setup~~ *(pending)*
+- ~~CI/CD pipeline~~ *(pending)*
 
 ---
 
@@ -183,12 +190,16 @@ This section tracks completed work that has not yet been included in an official
 - DOC_INDEX.md
 - IMPLEMENTATION_PROGRESS.md
 - CHANGELOG.md
+- Backend README.md with quick start, endpoint reference, and project structure
 
 ---
 
 ## Tests
 
-- Initial testing infrastructure
+- Pytest + httpx + pytest-asyncio testing infrastructure
+- Unit tests for configuration loading (defaults, environment overrides, caching)
+- API tests for `GET /`, `GET /health`, `GET /version` endpoints
+- Ruff linting and formatting integration
 
 ---
 
@@ -245,7 +256,7 @@ Release Date: YYYY-MM-DD
 
 | Version | Status | Release Date | Summary |
 |----------|--------|--------------|---------|
-| v0.1.0 | Planned | YYYY-MM-DD | Repository Bootstrap |
+| v0.1.0 | In Progress | YYYY-MM-DD | Repository Bootstrap (Backend Project Setup completed 2026-08-02) |
 
 ---
 
