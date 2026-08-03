@@ -70,11 +70,11 @@ Repository Bootstrap
 
 ### Current Task
 
-Git Ignore
+Frontend Project Setup
 
 ### Next Task
 
-Pre-Commit Hooks
+Git Ignore
 
 ---
 
