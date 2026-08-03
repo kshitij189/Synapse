@@ -183,9 +183,16 @@ This section tracks completed work that has not yet been included in an official
 - Image size optimisation (~55MB production image) using `python:3.12-slim` base
 - `pyproject.toml` with `uv` dependency management and `hatchling` build backend
 - `.env.example` environment variable template
-- Stub packages for future development: `dependencies/`, `models/`, `schemas/`, `services/`
+- Docker Compose local development stack (`docker-compose.yml`) with 3 services (IR-04 §4.6, IR-10 §10.6)
+- PostgreSQL 16 (Alpine) service with health check and persistent volume
+- Redis 7 (Alpine) service with health check and persistent volume
+- Docker bridge network (`synapse-network`) for inter-service communication
+- Startup dependency ordering: postgres → redis → backend (healthy condition)
+- Restart policies (`unless-stopped`) for all services
+- Bind-mount volume for backend hot-reload during development
+- Docker Compose verification script (`scripts/verify_compose.sh`) with 10 automated checks
+- `.env.example` updated with Docker Compose-aware documentation
 - ~~Frontend project initialization~~ *(pending)*
-- ~~Docker Compose setup~~ *(pending)*
 - ~~CI/CD pipeline~~ *(pending)*
 
 ---
@@ -264,7 +271,7 @@ Release Date: YYYY-MM-DD
 
 | Version | Status | Release Date | Summary |
 |----------|--------|--------------|---------|
-| v0.1.0 | In Progress | YYYY-MM-DD | Repository Bootstrap (Docker Setup completed 2026-08-02) |
+| v0.1.0 | In Progress | YYYY-MM-DD | Repository Bootstrap (Docker Compose completed 2026-08-03) |
 
 ---
 
